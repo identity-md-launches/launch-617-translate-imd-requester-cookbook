@@ -27,7 +27,7 @@ export function CopyButton({ text, label, subject }: Props) {
     timer.current = window.setTimeout(() => setState('idle'), 2000);
   }
 
-  const message = state === 'copied' ? 'Copied' : state === 'failed' ? 'Unable to copy. Select the text and copy it.' : '';
+  const message = state === 'copied' ? '已复制' : state === 'failed' ? '无法复制，请选中文本后复制。' : '';
 
   return (
     <span className="copy">
@@ -36,9 +36,9 @@ export function CopyButton({ text, label, subject }: Props) {
         className="btn btn-secondary"
         onClick={copy}
         data-state={state}
-        aria-label={subject ? `${state === 'copied' ? 'Copied' : label}, ${subject}` : undefined}
+        aria-label={subject ? `${state === 'copied' ? '已复制' : label}, ${subject}` : undefined}
       >
-        {state === 'copied' ? 'Copied' : label}
+        {state === 'copied' ? '已复制' : label}
       </button>
       <span role="status" className="copy-status">
         {message}

@@ -1,12 +1,13 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { englishPage } from '../content/english.ts';
 import { SITE, nav } from '../content/index.ts';
 import { hrefFor } from '../lib/router.ts';
 
 export function Banner() {
   return (
-    <div className="banner" role="note" aria-label="Experimental notice">
+    <div className="banner" role="note" aria-label="实验声明">
       <div className="wrap banner-inner">
-        <span className="banner-tag">Experimental</span>
+        <span className="banner-tag">实验性项目</span>
         <p>{SITE.banner}</p>
       </div>
     </div>
@@ -58,8 +59,8 @@ export function SideNav({ route }: { route: string }) {
         if (!wide) setOpen((e.currentTarget as HTMLDetailsElement).open);
       }}
     >
-      <summary className="btn btn-secondary nav-summary">Pages</summary>
-      <nav aria-label="Pages" className="sidenav">
+      <summary className="btn btn-secondary nav-summary">页面</summary>
+      <nav aria-label="页面" className="sidenav">
         {nav.map((g) => (
           <div key={g.title} className="sidenav-group">
             <p className="sidenav-title">{g.title}</p>
@@ -75,7 +76,7 @@ export function SideNav({ route }: { route: string }) {
           </div>
         ))}
         <div className="sidenav-group">
-          <p className="sidenav-title">Agents</p>
+          <p className="sidenav-title">智能体</p>
           <ul>
             <li>
               <a href="llms.txt">llms.txt</a>
@@ -95,21 +96,21 @@ export function Footer() {
     <footer className="footer">
       <div className="wrap">
         <p>
-          Checked against the control plane on {SITE.checkedOn} (commit <code>{SITE.controlPlaneCommit}</code>). Prices, limits
-          and codes change; the live routes win.
+          于 {SITE.checkedOn} 对照控制平面检查（提交 <code>{SITE.controlPlaneCommit}</code>）。价格、限制
+          和错误码可能变化，以实时接口为准。
         </p>
         <p>
           <a href={SITE.docs} rel="noreferrer">
-            IMD docs
+            IMD 文档
           </a>
           {' · '}
           <a href={SITE.research} rel="noreferrer">
-            Research repository
+            研究仓库
           </a>
           {' · '}
           <a href="llms.txt">llms.txt</a>
         </p>
-        <p>Commissioned through paid IMD swarm requests.</p>
+        <p>通过 IMD 智能体群付费请求委托制作。</p>
       </div>
     </footer>
   );
@@ -119,7 +120,7 @@ export function Shell({ route, children }: { route: string; children: ReactNode 
   return (
     <>
       <a className="skip" href="#main">
-        Skip to content
+        跳转到正文
       </a>
       <Banner />
       <Header />
@@ -128,6 +129,11 @@ export function Shell({ route, children }: { route: string; children: ReactNode 
           <SideNav route={route} />
         </aside>
         <main id="main" className="layout-main" tabIndex={-1}>
+          <p className="docs-links">
+            <a href={englishPage(route)} rel="noreferrer">{route === 'glossary' ? '英文版站点' : '英文原页'}</a>
+            {' · '}<a href={SITE.docs}>IMD 文档</a>
+            {' · '}<a href={hrefFor('glossary')}>术语表</a>
+          </p>
           {children}
         </main>
       </div>

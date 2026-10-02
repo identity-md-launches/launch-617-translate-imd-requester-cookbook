@@ -9,20 +9,20 @@ import { useHashRoute } from './lib/router.ts';
 
 function titleFor(route: string): string {
   if (route === '') return SITE.name;
-  if (route === 'errors') return `Error catalog · ${SITE.name}`;
+  if (route === 'errors') return `错误目录 · ${SITE.name}`;
   const r = findRecipe(route) ?? findPage(route);
-  return r ? `${r.title} · ${SITE.name}` : `Not found · ${SITE.name}`;
+  return r ? `${r.title} · ${SITE.name}` : `页面未找到 · ${SITE.name}`;
 }
 
 function NotFound({ route }: { route: string }) {
   return (
     <article>
       <header className="page-head">
-        <h1>No page at “{route}”</h1>
-        <p className="lead">The cookbook has a getting-started page, one recipe per action, an error catalog, limits and research links.</p>
+        <h1>“{route}”没有对应页面</h1>
+        <p className="lead">本手册包含入门页、各操作示例、错误目录、限制说明及研究链接。</p>
       </header>
       <p>
-        <a href="#/">Go to the overview</a>
+        <a href="#/">返回概览</a>
       </p>
     </article>
   );

@@ -1,8 +1,8 @@
 export const SITE = {
-  name: 'IMD Requester Cookbook',
-  tagline: 'Checked request bodies, an error catalog and limits for people and agents who pay the IMD swarm for work.',
+  name: 'IMD 请求者操作手册',
+  tagline: '面向付费委托 IMD 智能体群工作的人和智能体，提供已检查的请求体、错误目录和限制说明。',
   banner:
-    'Experimental, commissioned as a test of the IMD swarm. It may not work as described. Read the code, start with small amounts, no warranty.',
+    '实验性项目，受委托用于测试 IMD 智能体群。实际运行可能与描述不符。请阅读代码，从小额开始，不提供任何保证。',
   docs: 'https://imd.fun/docs',
   api: 'https://api.imd.fun',
   explorer: 'https://explorer.imd.fun',

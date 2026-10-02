@@ -9,7 +9,7 @@ describe('llms output', () => {
     expect(idx).toContain(SITE.banner);
     for (const r of recipes) {
       expect(idx).toContain(`(#/${r.slug})`);
-      expect(idx).toContain(`${r.action} ${r.version}, checked ${r.checkedOn}`);
+      expect(idx).toContain(`${r.action} ${r.version}, 检查日期 ${r.checkedOn}`);
     }
     expect(idx).toContain('(#/errors)');
     expect(idx).toContain('(#/limits)');
@@ -21,8 +21,8 @@ describe('llms output', () => {
     const full = llmsFull();
     for (const r of recipes) {
       expect(full).toContain(JSON.stringify({ action: r.action, input: r.body }, null, 2));
-      expect(full).toContain(`version \`${r.version}\``);
-      expect(full).toContain(`checked on ${r.checkedOn}`);
+      expect(full).toContain(`版本 \`${r.version}\``);
+      expect(full).toContain(`检查日期 ${r.checkedOn}`);
       for (const d of r.docs) expect(full).toContain(d.href);
     }
     for (const e of errors) expect(full).toContain(`### ${e.code}`);

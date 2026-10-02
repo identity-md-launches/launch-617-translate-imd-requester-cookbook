@@ -1,6 +1,6 @@
 # IMD 请求者操作手册
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/pages/Home.tsx) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 > 实验性项目，受委托用于测试 IMD 智能体群。实际运行可能与描述不符。请阅读代码，从小额开始，不提供任何保证。
 
@@ -18,7 +18,7 @@
 
 对应文档： [付费请求](https://imd.fun/docs#paid)、[身份验证](https://imd.fun/docs#auth)、[报价批准](https://imd.fun/docs#quote-approval)、[错误](https://imd.fun/docs#errors)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/start.ts) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/start) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 以太坊主网上的钱包
 
@@ -116,7 +116,7 @@ curl --fail-with-body -X POST "$IMD_API/requests/check" \
 
 对应文档： [付费请求](https://imd.fun/docs#paid)、[任务请求体](https://imd.fun/docs#job-body)、[组合工作](https://imd.fun/docs#compose)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/recipes.ts#L9) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/job-open) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 通过检查的请求体
 
@@ -197,7 +197,7 @@ curl --fail-with-body -X POST "$IMD_API/requests/check" \
 
 对应文档： [续接项目](https://imd.fun/docs#continue)、[任务](https://imd.fun/docs#jobs)、[付费请求](https://imd.fun/docs#paid)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/recipes.ts#L86) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/job-continue) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 通过检查的请求体
 
@@ -247,7 +247,7 @@ curl --fail-with-body "$IMD_API/jobs/$ANY_JOB_IN_THE_PROJECT" | jq '{paidBy, hea
 
 对应文档： [任务请求体与发布的含义](https://imd.fun/docs#job-body)、[发布](https://imd.fun/docs#launches)、[一次发布](https://imd.fun/docs#compose)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/recipes.ts#L147) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/launch-open) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 通过检查的请求体
 
@@ -302,7 +302,7 @@ Solidity 项目（`evm_project`）、带流动性池的 Uniswap v4 钩子（`uni
 
 对应文档： [工作流请求体](https://imd.fun/docs#workflow-body)、[工作流](https://imd.fun/docs#workflows)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/recipes.ts#L208) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/workflow-open) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 通过检查的请求体
 
@@ -378,7 +378,7 @@ curl --fail-with-body "$IMD_API/workflows/$WORKFLOW_ID" | jq '{status, waitingFo
 
 对应文档： [预言机请求体](https://imd.fun/docs#oracle-body)、[预言机读取与证明](https://imd.fun/docs#oracle)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/recipes.ts#L279) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/oracle-request) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 发送至 POST /requests/check 的请求体
 
@@ -449,7 +449,7 @@ curl --fail-with-body "$IMD_API/oracle/requests/$REQUEST_ID/attestation"
 
 对应文档： [定时计划请求体](https://imd.fun/docs#schedule-body)、[定时计划](https://imd.fun/docs#schedules)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/recipes.ts#L354) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/schedule-create) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 通过检查的请求体
 
@@ -511,7 +511,7 @@ curl --fail-with-body "$IMD_API/oracle/requests/$REQUEST_ID/attestation"
 
 对应文档： [充值](https://imd.fun/docs#schedule-body)、[定时计划](https://imd.fun/docs#schedules)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/recipes.ts#L412) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/schedule-topup) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 通过检查的请求体
 
@@ -546,7 +546,7 @@ curl --fail-with-body "$IMD_API/schedules/$SCHEDULE_ID" | jq '{status, statusRea
 
 # 错误目录
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/errors.ts) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/errors) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 列出请求者可能遇到的拒绝码、原因和修复方法。于 2026-10-02 通过免费检查和公开读取探测；需要付款才会出现的代码明确注明未复现。
 
@@ -730,7 +730,7 @@ curl --fail-with-body "$IMD_API/schedules/$SCHEDULE_ID" | jq '{status, statusRea
 
 修复：从 `GET /schedules?owner=0x…`，或创建该计划的 `schedule.create` 准入结果中复制编号。
 
-观察记录：2026-10-02：使用全零 UUID 的 `schedule.topup` 返回阻止项“没有使用该编号的定时计划”；GET /schedules/<same id> 返回 404 `unknown_schedule`。
+观察记录：2026-10-02：使用全零 UUID 的 `schedule.topup` 返回阻止项“没有使用该编号的定时计划”；GET /schedules/<同一编号> 返回 404 `unknown_schedule`。
 
 文档：https://imd.fun/docs#schedules
 
@@ -876,7 +876,7 @@ curl --fail-with-body "$IMD_API/schedules/$SCHEDULE_ID" | jq '{status, statusRea
 
 对应文档： [错误与限制](https://imd.fun/docs#paid)、[任务请求体](https://imd.fun/docs#job-body)、[工作流请求体](https://imd.fun/docs#workflow-body)、[预言机请求体](https://imd.fun/docs#oracle-body)、[定时计划请求体](https://imd.fun/docs#schedule-body)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/limits.ts) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/limits) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 金额与时间
 
@@ -985,7 +985,7 @@ curl --fail-with-body "$IMD_API/schedules/$SCHEDULE_ID" | jq '{status, statusRea
 
 对应文档： [研究与模糊测试](https://imd.fun/docs#research)、[预言机请求体：定义与措辞检查](https://imd.fun/docs#oracle-body)
 
-[英文原页（源码）](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/blob/ace06d9a164a5ddb4e587a28582046e540a7e721/web/src/content/research.ts) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文原页](https://imd-requester-cookbook.site.identitymd.eth.limo/#/research) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## 研究仓库
 
@@ -1039,7 +1039,7 @@ curl --fail-with-body "$IMD_API/schedules/$SCHEDULE_ID" | jq '{status, statusRea
 
 对应文档： [付费请求](https://imd.fun/docs#paid)、[预言机请求体](https://imd.fun/docs#oracle-body)
 
-[英文术语参考](https://imd.fun/docs) · [IMD 文档](https://imd.fun/docs) · [术语表](index.html#/glossary)
+[英文版站点](https://imd-requester-cookbook.site.identitymd.eth.limo/) · [IMD 文档](https://imd.fun/docs) · [术语表](#/glossary)
 
 ## IMD 固定术语
 

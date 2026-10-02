@@ -1,3 +1,4 @@
+import { renderInline } from '../lib/inline.tsx';
 import type { Recipe } from '../content/types.ts';
 import { SITE } from '../content/index.ts';
 import { CodeBlock, DocsLinks, SectionView } from '../components/Blocks.tsx';
@@ -14,30 +15,30 @@ export function RecipeView({ recipe }: { recipe: Recipe }) {
     <article>
       <header className="page-head">
         <h1>{recipe.title}</h1>
-        <p className="lead">{recipe.lead}</p>
-        <dl className="stamp" role="group" aria-label="Recipe stamp">
+        <p className="lead">{renderInline(recipe.lead)}</p>
+        <dl className="stamp" role="group" aria-label="示例版本与日期">
           <div>
-            <dt>Action</dt>
+            <dt>操作</dt>
             <dd>
               <code>{recipe.action}</code>
             </dd>
           </div>
           <div>
-            <dt>Version</dt>
+            <dt>版本</dt>
             <dd>
               <code>{recipe.version}</code>
             </dd>
           </div>
           <div>
-            <dt>Price</dt>
+            <dt>价格</dt>
             <dd className="num">{recipe.price}</dd>
           </div>
           <div>
-            <dt>Checked</dt>
+            <dt>检查日期</dt>
             <dd className="num">{recipe.checkedOn}</dd>
           </div>
           <div>
-            <dt>Control plane</dt>
+            <dt>控制平面</dt>
             <dd>
               <code>{SITE.controlPlaneCommit}</code>
             </dd>
@@ -47,29 +48,29 @@ export function RecipeView({ recipe }: { recipe: Recipe }) {
       </header>
 
       <section aria-labelledby="s-body">
-        <h2 id="s-body">{recipe.checkBody ? 'The bodies' : 'The body that passed the check'}</h2>
+        <h2 id="s-body">{recipe.checkBody ? '请求体' : '通过检查的请求体'}</h2>
         {recipe.checkBody ? (
           <>
             <p>
-              The check takes a short form. Send this to <code>POST /requests/check</code>:
+              检查接收简写形式，请发送至 <code>POST /requests/check</code>:
             </p>
-            <CodeBlock lang="json" title="check input" code={JSON.stringify({ action: recipe.action, input: recipe.checkBody }, null, 2)} />
+            <CodeBlock lang="json" title="检查输入" code={JSON.stringify({ action: recipe.action, input: recipe.checkBody }, null, 2)} />
             <p>
-              Send the full body the check returned to <code>POST /requests/quote</code>:
+              将检查返回的完整请求体发送至 <code>POST /requests/quote</code>:
             </p>
-            <CodeBlock lang="json" title="quote input" code={JSON.stringify(quoteBody, null, 2)} />
+            <CodeBlock lang="json" title="报价输入" code={JSON.stringify(quoteBody, null, 2)} />
           </>
         ) : (
-          <CodeBlock lang="json" title={`${recipe.action} input`} code={JSON.stringify(quoteBody, null, 2)} />
+          <CodeBlock lang="json" title={`${recipe.action} 输入`} code={JSON.stringify(quoteBody, null, 2)} />
         )}
         <details className="disclosure">
-          <summary>Run it as curl</summary>
-          <CodeBlock lang="bash" title="free check" code={curlFor(recipe.action, recipe.checkBody ?? recipe.body, 'check')} />
-          <CodeBlock lang="bash" title="quote (needs your request token and a fresh UUID)" code={curlFor(recipe.action, recipe.body, 'quote')} />
+          <summary>使用 curl 运行</summary>
+          <CodeBlock lang="bash" title="免费检查" code={curlFor(recipe.action, recipe.checkBody ?? recipe.body, 'check')} />
+          <CodeBlock lang="bash" title="报价（需要请求令牌和新的 UUID）" code={curlFor(recipe.action, recipe.body, 'quote')} />
         </details>
         <aside className="note">
           <p>
-            <strong>What the check said on {recipe.checkedOn}.</strong> {recipe.checkResult}
+            <strong>{recipe.checkedOn} 的检查结果。</strong> {renderInline(recipe.checkResult)}
           </p>
         </aside>
       </section>

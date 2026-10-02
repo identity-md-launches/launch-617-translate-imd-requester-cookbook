@@ -5,12 +5,12 @@ import { DocsLinks } from '../components/Blocks.tsx';
 import { renderInline } from '../lib/inline.tsx';
 
 const WHERE: { value: ErrorEntry['where'] | 'all'; label: string }[] = [
-  { value: 'all', label: 'Anywhere' },
-  { value: 'check', label: 'At the check or quote' },
-  { value: 'quote', label: 'At the quote only' },
-  { value: 'submit', label: 'At submit (payment)' },
-  { value: 'read', label: 'On a public read' },
-  { value: 'run', label: 'While work runs' },
+  { value: 'all', label: '所有阶段' },
+  { value: 'check', label: '检查或报价时' },
+  { value: 'quote', label: '仅报价时' },
+  { value: 'submit', label: '提交（付款）时' },
+  { value: 'read', label: '公开读取时' },
+  { value: 'run', label: '工作运行期间' },
 ];
 
 function matches(e: ErrorEntry, q: string, where: string): boolean {
@@ -34,22 +34,22 @@ export function ErrorsView() {
   return (
     <article>
       <header className="page-head">
-        <h1>Error catalog</h1>
+        <h1>错误目录</h1>
         <p className="lead">
-          Every refusal code a requester meets, with its cause and fix. Codes were probed through the free check and public reads on{' '}
-          {SITE.checkedOn}; where a code needs a payment to appear, the entry says it was not reproduced.
+          列出请求者可能遇到的拒绝码、原因和修复方法。通过免费检查和公开读取探测的日期为{' '}
+          {SITE.checkedOn}；对于需要付款才会出现的代码，各条目明确注明未复现。
         </p>
         <DocsLinks
           docs={[
-            { label: 'Errors', href: `${SITE.docs}#errors` },
-            { label: 'Errors and limits of paid requests', href: `${SITE.docs}#paid` },
+            { label: '错误', href: `${SITE.docs}#errors` },
+            { label: '付费请求的错误与限制', href: `${SITE.docs}#paid` },
           ]}
         />
       </header>
 
-      <form className="filters" role="search" aria-label="Filter the catalog" onSubmit={(e) => e.preventDefault()}>
+      <form className="filters" role="search" aria-label="筛选错误目录" onSubmit={(e) => e.preventDefault()}>
         <div className="field">
-          <label htmlFor={qId}>Find a code</label>
+          <label htmlFor={qId}>查找错误码</label>
           <input
             id={qId}
             type="search"
@@ -61,7 +61,7 @@ export function ErrorsView() {
           />
         </div>
         <div className="field">
-          <label htmlFor={wId}>Where it appears</label>
+          <label htmlFor={wId}>出现阶段</label>
           <select id={wId} value={where} onChange={(e) => setWhere(e.target.value)}>
             {WHERE.map((w) => (
               <option key={w.value} value={w.value}>
@@ -71,14 +71,14 @@ export function ErrorsView() {
           </select>
         </div>
         <p role="status" className="filters-status">
-          {shown.length === errors.length ? `${errors.length} codes` : `${shown.length} of ${errors.length} codes`}
+          {shown.length === errors.length ? `共 ${errors.length} 个错误码` : `显示 ${shown.length} 个，共 ${errors.length} 个错误码`}
         </p>
       </form>
 
       {shown.length === 0 ? (
         <div className="empty">
-          <p className="empty-title">No codes match {query ? `"${query}"` : 'that place'}</p>
-          <p>Codes are matched on their name, cause, fix and observation.</p>
+          <p className="empty-title">没有匹配的错误码： {query ? `"${query}"` : '所选阶段'}</p>
+          <p>根据错误码名称、原因、修复方法和观察记录进行匹配。</p>
           <button
             type="button"
             className="btn btn-secondary"
@@ -87,14 +87,14 @@ export function ErrorsView() {
               setWhere('all');
             }}
           >
-            Clear filters
+            清除筛选
           </button>
         </div>
       ) : (
         <>
           {required.length > 0 && (
             <section aria-labelledby="s-required">
-              <h2 id="s-required">Codes named by the assignment</h2>
+              <h2 id="s-required">原任务指定的错误码</h2>
               {required.map((e) => (
                 <ErrorCard key={e.code} entry={e} />
               ))}
@@ -102,7 +102,7 @@ export function ErrorsView() {
           )}
           {rest.length > 0 && (
             <section aria-labelledby="s-other">
-              <h2 id="s-other">Other codes you will meet</h2>
+              <h2 id="s-other">其他常见错误码</h2>
               {rest.map((e) => (
                 <ErrorCard key={e.code} entry={e} />
               ))}
@@ -118,7 +118,7 @@ export function ErrorsView() {
                   setWhere('all');
                 }}
               >
-                Clear filters
+                清除筛选
               </button>
             </p>
           )}
@@ -136,19 +136,19 @@ function ErrorCard({ entry }: { entry: ErrorEntry }) {
         <code>{entry.code}</code>
       </h3>
       <p className="error-where">
-        <span className="pill">{entry.where}</span> {entry.status}
+        <span className="pill">{WHERE.find((w) => w.value === entry.where)?.label}</span> {entry.status}
       </p>
       <dl className="error-body">
-        <dt>Cause</dt>
+        <dt>原因</dt>
         <dd>{renderInline(entry.cause)}</dd>
-        <dt>Fix</dt>
+        <dt>修复</dt>
         <dd>{renderInline(entry.fix)}</dd>
-        <dt>Observed</dt>
+        <dt>观察记录</dt>
         <dd>{renderInline(entry.observed)}</dd>
       </dl>
       <p className="error-docs">
         <a href={`${SITE.docs}#${entry.docs}`} rel="noreferrer">
-          Read the docs section for {entry.code}
+          阅读 {entry.code} 对应的文档章节
         </a>
       </p>
     </article>

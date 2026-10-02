@@ -1,7 +1,8 @@
 // Serialises the content model to plain Markdown for llms.txt and llms-full.txt.
 // Used by scripts/gen-llms.mjs (Node, type-stripped) and by the tests.
+import { englishPage } from '../content/english.ts';
 import type { Block, ErrorEntry, Page, Recipe } from '../content/types.ts';
-import { SITE, errors, limits, nav, recipes, research, start } from '../content/index.ts';
+import { SITE, errors, limits, nav, recipes, research, start, glossary } from '../content/index.ts';
 
 function blockToMd(b: Block): string {
   switch (b.kind) {
@@ -24,8 +25,12 @@ function blockToMd(b: Block): string {
   }
 }
 
+function pageLinks(slug: string): string {
+  return `[${slug === 'glossary' ? '英文版站点' : '英文原页'}](${englishPage(slug)}) · [IMD 文档](${SITE.docs}) · [术语表](#/glossary)`;
+}
+
 function docsLines(p: Page): string {
-  return `Matching docs: ${p.docs.map((d) => `[${d.label}](${d.href})`).join(', ')}`;
+  return `对应文档： ${p.docs.map((d) => `[${d.label}](${d.href})`).join('、')}\n\n${pageLinks(p.slug)}`;
 }
 
 export function pageToMd(p: Page): string {
@@ -43,19 +48,19 @@ export function recipeToMd(r: Recipe): string {
     '',
     r.lead,
     '',
-    `Action: \`${r.action}\` · version \`${r.version}\` · price ${r.price} · checked on ${r.checkedOn} against control plane \`${SITE.controlPlaneCommit}\``,
+    `操作：\`${r.action}\` · 版本 \`${r.version}\` · 价格 ${r.price} · 检查日期 ${r.checkedOn}，控制平面 \`${SITE.controlPlaneCommit}\``,
     '',
     docsLines(r),
     '',
   ];
   if (r.checkBody) {
-    out.push('## Body sent to POST /requests/check', '', '```json', JSON.stringify(r.checkBody, null, 2), '```', '');
-    out.push('## Body to send to POST /requests/quote', '');
+    out.push('## 发送至 POST /requests/check 的请求体', '', '```json', JSON.stringify(r.checkBody, null, 2), '```', '');
+    out.push('## 发送至 POST /requests/quote 的请求体', '');
   } else {
-    out.push('## Body that passed the check', '');
+    out.push('## 通过检查的请求体', '');
   }
   out.push('```json', JSON.stringify({ action: r.action, input: r.body }, null, 2), '```', '');
-  out.push('## What the check said', '', r.checkResult, '');
+  out.push('## 检查结果', '', r.checkResult, '');
   for (const s of r.sections) {
     out.push(`## ${s.title}`, '');
     for (const b of s.blocks) out.push(blockToMd(b), '');
@@ -67,15 +72,15 @@ function errorToMd(e: ErrorEntry): string {
   return [
     `### ${e.code}`,
     '',
-    `Where: ${e.where} · ${e.status}`,
+    `阶段：${({check: '检查或报价', quote: '报价', submit: '提交', read: '公开读取', run: '运行'})[e.where]} · ${e.status}`,
     '',
-    `Cause: ${e.cause}`,
+    `原因：${e.cause}`,
     '',
-    `Fix: ${e.fix}`,
+    `修复：${e.fix}`,
     '',
-    `Observed: ${e.observed}`,
+    `观察记录：${e.observed}`,
     '',
-    `Docs: ${SITE.docs}#${e.docs}`,
+    `文档：${SITE.docs}#${e.docs}`,
   ].join('\n');
 }
 
@@ -83,17 +88,17 @@ export function errorsToMd(): string {
   const req = errors.filter((e) => e.required);
   const rest = errors.filter((e) => !e.required);
   return [
-    '# Error catalog',
+    '# 错误目录', '', pageLinks('errors'),
     '',
-    `Every refusal code a requester meets, with its cause and fix. Codes were probed through the free check and public reads on ${SITE.checkedOn}; where a code needs a payment to appear, the entry says it was not reproduced.`,
+    `列出请求者可能遇到的拒绝码、原因和修复方法。于 ${SITE.checkedOn} 通过免费检查和公开读取探测；需要付款才会出现的代码明确注明未复现。`,
     '',
-    `Matching docs: [Errors](${SITE.docs}#errors), [Errors and limits of paid requests](${SITE.docs}#paid)`,
+    `对应文档： [错误](${SITE.docs}#errors), [付费请求的错误与限制](${SITE.docs}#paid)`,
     '',
-    '## Codes named by the assignment',
+    '## 原任务指定的错误码',
     '',
     req.map(errorToMd).join('\n\n'),
     '',
-    '## Other codes you will meet',
+    '## 其他常见错误码',
     '',
     rest.map(errorToMd).join('\n\n'),
     '',
@@ -102,37 +107,37 @@ export function errorsToMd(): string {
 
 function overviewMd(): string {
   return [
-    `# ${SITE.name}`,
+    `# ${SITE.name}`, '', pageLinks(''),
     '',
     `> ${SITE.banner}`,
     '',
     SITE.tagline,
     '',
-    `This cookbook complements ${SITE.docs}; every page links the matching docs section and none of it repeats the reference. Every recipe body was sent to POST /requests/check on ${SITE.checkedOn} (control plane \`${SITE.controlPlaneCommit}\`) and is stamped with its action version from GET /requests/capabilities.`,
+    `本手册补充 ${SITE.docs}，每页链接对应文档章节，不重复参考文档。所有示例请求体均于 ${SITE.checkedOn} 发送至 POST /requests/check（控制平面 \`${SITE.controlPlaneCommit}\`），并标注 GET /requests/capabilities 提供的操作版本。`,
     '',
-    'Site root: index.html (hash routes: #/start, #/job-open, #/errors, ...). Machine-readable: /llms.txt (this index) and /llms-full.txt (every page).',
+    '站点入口：index.html（哈希路由：#/start、#/job-open、#/errors 等）。机器可读文件：/llms.txt（索引）和 /llms-full.txt（全部页面）。',
     '',
   ].join('\n');
 }
 
 /** The index file: one line per page. */
 export function llmsIndex(base = ''): string {
-  const lines: string[] = [overviewMd(), '## Pages', ''];
+  const lines: string[] = [overviewMd(), '## 页面', ''];
   for (const g of nav) {
     for (const it of g.items) {
       if (it.slug === '') continue;
-      const page = recipes.find((r) => r.slug === it.slug) ?? (it.slug === 'errors' ? null : [start, limits, research].find((p) => p.slug === it.slug));
-      const lead = page ? page.lead : 'Every refusal code with its cause and fix.';
-      const stamp = page && 'version' in page ? ` (${(page as Recipe).action} ${(page as Recipe).version}, checked ${(page as Recipe).checkedOn})` : '';
+      const page = recipes.find((r) => r.slug === it.slug) ?? (it.slug === 'errors' ? null : [start, limits, research, glossary].find((p) => p.slug === it.slug));
+      const lead = page ? page.lead : '各拒绝码的原因和修复方法。';
+      const stamp = page && 'version' in page ? ` (${(page as Recipe).action} ${(page as Recipe).version}, 检查日期 ${(page as Recipe).checkedOn})` : '';
       lines.push(`- [${it.title}](${base}#/${it.slug}): ${lead}${stamp}`);
     }
   }
-  lines.push('', '## Optional', '', `- [Full text](${base}llms-full.txt): all pages as Markdown`, `- [IMD docs](${SITE.docs})`, `- [Research repository](${SITE.research})`, '');
+  lines.push('', '## 更多内容', '', `- [完整文本](${base}llms-full.txt): 所有页面的 Markdown 文本`, `- [IMD 文档](${SITE.docs})`, `- [研究仓库](${SITE.research})`, '');
   return lines.join('\n');
 }
 
 /** Every page as Markdown, separated by rules. */
 export function llmsFull(): string {
-  const parts = [overviewMd(), pageToMd(start), ...recipes.map(recipeToMd), errorsToMd(), pageToMd(limits), pageToMd(research)];
+  const parts = [overviewMd(), pageToMd(start), ...recipes.map(recipeToMd), errorsToMd(), pageToMd(limits), pageToMd(research), pageToMd(glossary)];
   return parts.join('\n---\n\n');
 }

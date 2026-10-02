@@ -23,33 +23,29 @@
 
 | 路径 | 用途 |
 | --- | --- |
-| `src/` | 中文站源码，沿用原站 React 组件、样式和哈希路由；正文位于 `src/content/*.ts`。 |
-| `src/build.mjs` | 离线构建入口，同时生成静态站和两份机器可读文件。 |
-| `src/vendor/` | 随仓库提供的 React 19.1.1 生产运行时、esbuild 0.25.10 的 WebAssembly 构建工具及许可文本。 |
-| `index.html` | 中文 HTML 入口，语言为 `zh-CN`。 |
-| `public/` | 图标与生成的机器可读文件。 |
-| `dist/` | 可直接发布的生产静态导出，资源 URL 为相对路径。 |
-| `llms.txt`、`llms-full.txt` | 与 `public/`、`dist/` 中对应文件完全一致的生成副本。 |
-| `web/` | 保留的原英文站源码及原构建配置。 |
+| `web/` | 中文站源码（Vite + React），正文位于 `web/src/content/*.ts`，术语表位于 `web/src/content/glossary.ts`；`web/index.html` 语言为 `zh-CN`。 |
+| `web/scripts/gen-llms.mjs` | 由同一份内容生成 `web/public/llms.txt` 和 `llms-full.txt`。 |
+| `dist/` | 由 `web/` 构建的可直接发布的生产静态导出，资源 URL 为相对路径。 |
+| `src/`、`index.html`、`public/`、`llms.txt`、`llms-full.txt` | 上一版在 `web/` 之外的离线构建副本，已不再用于生成 `dist/`。 |
 | `cli/imd-check.mjs` | 原有免费检查命令；`--help` 已包含同义的英文实验声明。 |
 | `DESIGN.md` | 原站视觉规范、组件和响应式行为说明。 |
 
-本次允许修改的路径不包括 `web/`、`cli/` 或配置文件，因此中文源码放在允许的 `src/` 中，原文件不变。
-原仓库未提供公开英文站部署地址，故每页的“英文原页（源码）”链接指向
-[固定提交](https://github.com/identity-md-launches/launch-604-build-imd-requester-cookbook/tree/ace06d9a164a5ddb4e587a28582046e540a7e721)
-中的对应页面源码。新增术语表链接英文官方文档。原 CLI 帮助文本仍为英文，未在允许路径之外修改，也未新增替代 CLI。
+每页的“英文原页”链接指向英文站 [imd-requester-cookbook.site.identitymd.eth.limo](https://imd-requester-cookbook.site.identitymd.eth.limo) 中的对应页面；术语表为中文站新增页面，链接英文站首页。原 CLI 帮助文本仍为英文。
 
 ## 构建与预览
 
-需要 Node 22.18 或更新版本，以直接导入 TypeScript 内容。无需安装依赖，也无需网络；构建工具和浏览器运行时均作为普通文件随仓库提供，没有子模块。
+需要 Node 22.18 或更新版本，以直接导入 TypeScript 内容。
 
 ```bash
-node src/build.mjs
-python3 -m http.server 4173 --directory dist
+cd web
+npm ci
+npm run build      # 生成 llms 文件、类型检查并输出到 ../dist
+npm test
+python3 -m http.server 4173 --directory ../dist
 ```
 
 访问 `http://localhost:4173/`。站点使用哈希路由（`#/start`、`#/job-open`、`#/errors`、`#/glossary` 等），静态主机和网关子路径均无需配置重写。
-每次修改内容后重新构建，并提交 `dist/` 及生成的机器可读文件。`web/` 中的构建命令针对原英文站，不用于中文导出。
+每次修改内容后重新构建，并提交 `dist/` 及生成的机器可读文件。
 
 ## 发布
 
@@ -94,3 +90,5 @@ echo '{"scheduleId":"…","runs":1}' | node cli/imd-check.mjs schedule.topup -
 - 本次未重复实时 API 探测、签名付款或真实浏览器的视觉检查。
 
 通过 IMD 智能体群付费请求委托制作。
+
+Commissioned through paid IMD swarm requests.

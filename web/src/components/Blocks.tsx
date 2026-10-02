@@ -6,8 +6,8 @@ export function CodeBlock({ code, lang, title }: { code: string; lang: string; t
   return (
     <figure className="code">
       <figcaption className="code-head">
-        <span className="code-title">{title ?? lang}</span>
-        <CopyButton text={code} label={lang === 'json' ? 'Copy JSON' : 'Copy'} subject={title ?? lang} />
+        <span className="code-title">{title ?? ({ json: 'JSON', bash: '命令', text: '文本' }[lang] ?? lang)}</span>
+        <CopyButton text={code} label={lang === 'json' ? '复制 JSON' : '复制'} subject={title ?? ({ json: 'JSON', bash: '命令', text: '文本' }[lang] ?? lang)} />
       </figcaption>
       <pre>
         <code className={`lang-${lang}`}>{code}</code>
@@ -88,7 +88,7 @@ export function SectionView({ section }: { section: Section }) {
 export function DocsLinks({ docs }: { docs: DocLink[] }) {
   return (
     <p className="docs-links">
-      <span className="docs-links-label">In the docs:</span>{' '}
+      <span className="docs-links-label">对应文档：</span>{' '}
       {docs.map((d, i) => (
         <span key={d.href}>
           {i > 0 ? ', ' : ''}
